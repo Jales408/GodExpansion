@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour {
     private PlayerMovement c_movement;  //Reference to PlayerMovement script
     private bool isJumping; //To determine if the player is jumping
     private bool isAttacking;
+    private bool isHeavyAttacking;
     private bool isDefending;
 
     public int health;
@@ -36,6 +37,12 @@ public class PlayerInput : MonoBehaviour {
         if (!isAttacking)
         {
             isAttacking = Input.GetKey(KeyCode.F);
+            
+            //=CrossPlatformInputManager.GetButtonDown("Fire1");
+        }
+        if (!isHeavyAttacking)
+        {
+            isHeavyAttacking = Input.GetKey(KeyCode.G);
             //=CrossPlatformInputManager.GetButtonDown("Fire1");
         }
         if (health <= 0)
@@ -50,8 +57,13 @@ public class PlayerInput : MonoBehaviour {
     {
         if (isAttacking)
         {
-            c_movement.Attack();
+            c_movement.Attack(0);
             isAttacking = false;
+        }
+        if (isHeavyAttacking)
+        {
+            c_movement.Attack(1);
+            isHeavyAttacking = false;
         }
         //Get horizontal axis
         float h = CrossPlatformInputManager.GetAxis("Horizontal");
@@ -65,12 +77,31 @@ public class PlayerInput : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (health <= 0) return;
-        if (other.gameObject.layer != 8 || !other.gameObject.GetComponentInParent<Animator>().GetBool("Attacking")) return;
-        if (!isDefending)
+        if (!(other.gameObject.GetComponentInParent<Animator>() == null && other.gameObject.tag=="Trap"))
         {
-            int damage = other.gameObject.GetComponentInParent<Ennemi>().hit(bloodEffect);
-            health -= damage;
-            int[] poison = other.gameObject.GetComponentInParent<Ennemi>().poison();
+            if (other.gameObject.layer != 8 || !other.gameObject.GetComponentInParent<Animator>().GetBool("Attacking")) return;
+        }
+        if (!isDefending || other.gameObject.tag == "Trap")
+        {
+            int damage;
+            int[] poison;
+            Instantiate(bloodEffect, GetComponent<Collider2D>().Distance(other).pointA, Quaternion.identity);
+            Vector3 directionForce = other.gameObject.transform.position - transform.position;
+            c_movement.addHitForce(directionForce / directionForce.magnitude);
+
+            if (other.gameObject.tag == "Trap")
+            {
+                damage = other.gameObject.GetComponentInParent<Trap>().hit();
+                poison = other.gameObject.GetComponentInParent<Trap>().poison();
+            }
+            else
+            {
+                damage = other.gameObject.GetComponentInParent<Ennemi>().hit();
+                poison = other.gameObject.GetComponentInParent<Ennemi>().poison();
+            }
+                health -= damage;
+                
+            
             if (poison != null)
             {
                 TakePoison(poison[0], poison[1]);
@@ -78,7 +109,7 @@ public class PlayerInput : MonoBehaviour {
         }
         else
         {
-            other.gameObject.GetComponentInParent<Ennemi>().block();
+                other.gameObject.GetComponentInParent<Ennemi>().block();
         }
         if (health <= 0)
         {

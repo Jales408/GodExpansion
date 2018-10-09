@@ -9,13 +9,10 @@ public class EnnemiIA : MonoBehaviour {
     public float starttimeAttacking;
     public float startTimeBtwAttack;
 
-    public Transform attackPos;
     public Transform detectPos;
 
-    public float attackRange;
     public float detectRange;
     public LayerMask LayerPlayer;
-    public float delayAttack;
     public bool facingRight;
 
     public Ennemi ennemi;

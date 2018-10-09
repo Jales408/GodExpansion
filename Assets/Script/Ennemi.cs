@@ -19,8 +19,10 @@ public class Ennemi : MonoBehaviour {
     {
         if (health <= 0) return;
         if (other.gameObject.tag != "Player" || !other.gameObject.GetComponentInParent<Animator>().GetBool("Attacking")) return;
-        int damage = other.gameObject.GetComponentInParent<PlayerMovement>().hit(bloodEffect);
-        
+        int damage = other.gameObject.GetComponentInParent<PlayerMovement>().hit();
+        Instantiate(bloodEffect, GetComponent<Collider2D>().Distance(other).pointA, Quaternion.identity);
+        Vector3 directionForce = other.gameObject.transform.position - transform.position;
+        //m_Rigidbody2D.AddForce(new Vector2(-direction.x * m_JumpSideForce, -direction.y * m_JumpForce));
         health -= damage;
         if (health <= 0)
         {
@@ -28,11 +30,11 @@ public class Ennemi : MonoBehaviour {
         }
     }
 
-    public int hit(GameObject bloodEffect)
+    public int hit()
     {
-        Instantiate(bloodEffect, bloodEffectPos.transform.position, Quaternion.identity);
         return damage;
     }
+
     public void block()
     {
         //Instantiate effect

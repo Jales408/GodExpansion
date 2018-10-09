@@ -30,7 +30,7 @@ MonoBehaviour:
     localScale: {x: 1, y: 1, z: 1}
   - path: Bones/hip/torso/LeftArm
     localPosition: {x: 0.79591674, y: 0.61156154, z: 0}
-    localRotation: {x: 0, y: 0, z: 0.9568403, w: 0.2906143}
+    localRotation: {x: 0, y: 0, z: 0.9611529, w: 0.2760165}
     localScale: {x: 1, y: 1, z: 1}
   - path: Bones/hip/torso/LeftArm/LeftArmLover
     localPosition: {x: 0.8808185, y: -0.00000008940697, z: 0}
@@ -42,15 +42,15 @@ MonoBehaviour:
     localScale: {x: 1, y: 1, z: 1}
   - path: Bones/hip/torso/RightArm
     localPosition: {x: 0.9733102, y: -0.46091986, z: 0}
-    localRotation: {x: 0, y: 0, z: 0.9930884, w: -0.11736914}
+    localRotation: {x: 0, y: 0, z: 0.9915431, w: 0.12977785}
     localScale: {x: 1, y: 1, z: 1}
   - path: Bones/hip/torso/RightArm/RightArmLower
     localPosition: {x: 0.8795738, y: -0.00000011920929, z: 0}
-    localRotation: {x: 0, y: 0, z: -0.89371955, w: 0.4486262}
+    localRotation: {x: 0, y: 0, z: -0.48232445, w: 0.8759927}
     localScale: {x: 1, y: 1, z: 1}
   - path: Bones/hip/torso/RightArm/RightArmLower/RightHand
     localPosition: {x: 0.815366, y: 0, z: 0}
-    localRotation: {x: 0, y: 0, z: -0.033022575, w: 0.9994547}
+    localRotation: {x: 0, y: 0, z: -0.007658589, w: 0.99997073}
     localScale: {x: 1, y: 1, z: 1}
   - path: Bones/hip/torso/bouche
     localPosition: {x: 1.4600452, y: 0.020304687, z: 0}
