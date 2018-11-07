@@ -10,7 +10,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{467F24FC-881A-4A2A-C91F-D76F240C6BBE}</ProjectGuid>
+    <ProjectGuid>{9A8F5C8F-B035-5604-B031-27D4DC18D8FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -121,16 +121,16 @@
     <None Include="Assets\Anima2D\Examples\Shaders\VertexLitOneDirectional.shader" />
     <None Include="Assets\Anima2D\Readme.txt" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>D:/Jacques/jeux/Equilibre/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>D:/Jacques/jeux/GodExpansion/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/Jacques/jeux/Equilibre/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:/Jacques/jeux/GodExpansion/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>D:/Jacques/jeux/Equilibre/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>D:/Jacques/jeux/GodExpansion/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/Jacques/jeux/Equilibre/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>D:/Jacques/jeux/GodExpansion/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -366,7 +366,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{E49C483B-894C-00D7-4B35-58E5D1D6ACC9}</Project>
+      <Project>{93493BBF-2B70-694F-2785-97BA4D0EC5D3}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>
