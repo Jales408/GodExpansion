@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour {
     private int numberofAttack = 0;
     private int typeAttack = 0;
     private Transform PositionObjetTenu;
+    private Vector3 startingPosition;
     private bool isHolding = false;
     private Collider2D[] colliders;
 
@@ -58,6 +59,8 @@ public class PlayerMovement : MonoBehaviour {
     public float hauteur;
     public float hauteurClimb;
     public float climbingTime;
+    public float climbingDistanceY;
+    public float climbingDistanceX;
 
 
 
@@ -98,12 +101,13 @@ public class PlayerMovement : MonoBehaviour {
             if (m_Walled)
             {
                 m_Climb = true;
-                max = Physics2D.OverlapAreaNonAlloc(m_WallCheck.position + Vector3.left * largeur + Vector3.up * (hauteur+hauteurClimb), m_WallCheck.position + Vector3.right * largeur + Vector3.up *hauteur, colliders, m_WhatIsGround);
+                max = Physics2D.OverlapAreaNonAlloc(m_WallCheck.position + Vector3.left * largeur*4 + Vector3.up * (hauteur+hauteurClimb), m_WallCheck.position + Vector3.right * largeur*4 + Vector3.up *hauteur, colliders, m_WhatIsGround);
                 for (int i = 0; i < max; i++)
                 {
                     if (colliders[i].gameObject != gameObject)
+                    {
                         m_Climb = false;
-                    Debug.Log("canClimb");
+                    }
                 }
             }
         }
@@ -126,19 +130,52 @@ public class PlayerMovement : MonoBehaviour {
         }
         else if (isClimbing)
         {
-            m_Rigidbody2D.velocity = new Vector2(m_velocityClimbing, m_velocityClimbing);
-            Debug.Log(m_Rigidbody2D.velocity);
+            float accY = 0f;
+            float accX = 0f;
+
+            if (transform.position.y-startingPosition.y < climbingDistanceY)
+            {
+                if (m_Rigidbody2D.velocity.y < m_MaxSpeed)
+                {
+                    Debug.Log("Y");
+                    accY = m_acc * 4;
+                }
+            }
+            else if (Mathf.Abs(m_Rigidbody2D.velocity.x) < m_MaxSpeed)
+            {
+                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0f);
+                if ( transform.position.x - startingPosition.x < climbingDistanceX && !m_FacingLeft)
+                {
+                    Debug.Log("+X");
+                    accX = m_acc;
+                }
+                else if (startingPosition.x - transform.position.x < climbingDistanceX && m_FacingLeft)
+                {
+                    Debug.Log("-X");
+                    accX = -m_acc;
+                }
+            }
+            
+            m_Rigidbody2D.AddForce(new Vector2(accX, accY), ForceMode2D.Impulse);
+            if (Mathf.Abs(transform.position.x - startingPosition.x) > climbingDistanceX && transform.position.y - startingPosition.y > climbingDistanceY)
+            {
+                isClimbing = false;
+                m_Rigidbody2D.velocity = new Vector2(0f, 0f);
+            }
             return;
         }
         else if(m_Climb && m_Rigidbody2D.velocity.y <= -m_velocityWalled)
         {
             Debug.Log("startClimbing");
             isClimbing = true;
-            StartCoroutine(DelayChangingBool(isClimbing,climbingTime));
+            startingPosition = transform.position;
+            m_Rigidbody2D.velocity = new Vector2(0f, 0f);
+            m_Anim.SetBool("Climbing", true);
 
         }
         else
         {
+            m_Anim.SetBool("Climbing", false);
             m_Anim.SetBool("Holding", false);
             if (m_Walled && (_move < 0 && m_FacingLeft || _move > 0 && !m_FacingLeft))
             {
@@ -329,7 +366,7 @@ public class PlayerMovement : MonoBehaviour {
         canHold = true;
     }
 
-    IEnumerator DelayChangingBool(bool toChange, float time)
+    IEnumerator DelayClimbing(float time)
     {
         yield return new WaitForSeconds(time);
         isClimbing = false;
@@ -369,12 +406,13 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public int hit()
-    {
+    { 
         return damage;
     }
 
     public void addHitForce(Vector3 direction)
     {
+        isClimbing = false;
         m_Rigidbody2D.velocity = new Vector2(0f,0f);
         m_Rigidbody2D.AddForce(new Vector2(-direction.x * m_JumpSideForce, -direction.y * m_JumpForce/2));
     }
@@ -394,7 +432,7 @@ public class PlayerMovement : MonoBehaviour {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(m_WallCheck.position, new Vector3(largeur*2f, hauteur*2f, 0f));
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(m_WallCheck.position+Vector3.up*(hauteur+hauteurClimb), new Vector3(largeur*2f, hauteurClimb*2f, 0f));
+        Gizmos.DrawWireCube(m_WallCheck.position+Vector3.up*(hauteur+hauteurClimb), new Vector3(largeur*8f, hauteurClimb*2f, 0f));
         
     }
 }
